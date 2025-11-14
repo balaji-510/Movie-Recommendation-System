@@ -1,0 +1,40 @@
+{% extends 'recommendations/base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Write a Review for "{{ show.title }}"</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="id_review_text" class="form-label">Your Review</label>
+                    {{ form.review_text }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_rating" class="form-label">Rating (1-5)</label>
+                    {{ form.rating }}
+                </div>
+
+                <button type="submit" class="btn btn-success">Submit Review</button>
+                <a href="{% url 'home' %}" class="btn btn-secondary ms-2">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    textarea, input[type="number"] {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+</style>
+{% endblock %}

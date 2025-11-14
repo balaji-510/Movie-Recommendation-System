@@ -1,0 +1,26 @@
+# Ignore local environment folders
+Balaji/
+.env/
+.env.local
+.venv/
+venv/
+ENV/
+
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# IDE/editor settings
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db

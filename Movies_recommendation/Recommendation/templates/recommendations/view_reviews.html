@@ -1,0 +1,43 @@
+{% extends 'recommendations/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    <h1 class="mb-1">{{ show.title }}</h1>
+    <h5 class="text-muted mb-4"><strong>Genre:</strong> {{ show.genre }}</h5>
+    <h2 class="mb-4">All Reviews</h2>
+
+    {% if reviews %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for review in reviews %}
+                <div class="col">
+                    <div class="card p-3 h-100 shadow-sm border-primary border-start border-4">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <strong>{{ review.user.username }}</strong>
+                                <span class="float-end text-warning">⭐ {{ review.rating }}/5</span>
+                            </h5>
+                            <p class="card-text">{{ review.review_text }}</p>
+                            <p class="text-muted small">{{ review.created_at|date:"M d, Y - H:i" }}</p>
+
+                            {% if user == review.user or user.is_staff %}
+                                <div class="mt-2 d-flex gap-2">
+                                    <a href="{% url 'edit_review' review.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a href="{% url 'delete_review' review.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No reviews yet for this show.</p>
+    {% endif %}
+
+    <a href="/" class="btn btn-secondary mt-4">← Back to Home</a>
+</div>
+{% endblock %}

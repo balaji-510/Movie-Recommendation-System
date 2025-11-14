@@ -1,0 +1,51 @@
+{% extends 'recommendations/base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-body">
+            <h3 class="card-title mb-4 text-center">Add a New Show</h3>
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="id_title" class="form-label">Title</label>
+                    <input type="text" name="title" id="id_title" class="form-control" value="{{ form.title.value|default:'' }}">
+                    {% if form.title.errors %}
+                        <div class="text-danger">{{ form.title.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_description" class="form-label">Description</label>
+                    <textarea name="description" id="id_description" class="form-control" rows="5">{{ form.description.value|default:'' }}</textarea>
+                    {% if form.description.errors %}
+                        <div class="text-danger">{{ form.description.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_genre" class="form-label">Genre</label>
+                    <input type="text" name="genre" id="id_genre" class="form-control" value="{{ form.genre.value|default:'' }}">
+                    {% if form.genre.errors %}
+                        <div class="text-danger">{{ form.genre.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_show_type" class="form-label">Show Type</label>
+                    {{ form.show_type }}
+                    {% if form.show_type.errors %}
+                        <div class="text-danger">{{ form.show_type.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">Add Show</button>
+            </form>
+
+            <a href="{% url 'home' %}" class="btn btn-secondary w-100 mt-3">← Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

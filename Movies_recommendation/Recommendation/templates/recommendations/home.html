@@ -1,0 +1,56 @@
+{% extends 'recommendations/base.html' %}
+
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        {% if request.user.is_staff %}
+            <div class="text-end mb-3">
+                <a href="{% url 'add_show' %}" class="btn btn-sm btn-outline-success">+ Add New Show</a>
+            </div>
+        {% endif %}
+        <div class="mb-4 text-center">
+            <a href="{% url 'home' %}" class="btn btn-outline-dark me-2 {% if not filter_type %}active{% endif %}">All</a>
+            <a href="?type=Movie" class="btn btn-outline-primary me-2 {% if filter_type == 'Movie' %}active{% endif %}">Movies</a>
+            <a href="?type=TV" class="btn btn-outline-success {% if filter_type == 'TV' %}active{% endif %}">TV Shows</a>
+        </div>
+
+        {% if filter_type %}
+            <h5 class="text-muted mb-3 text-center">Showing: {{ filter_type }}</h5>
+        {% endif %}
+        <div class="row">
+            {% for show in shows %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm show-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ show.title }} <small class="text-muted">({{ show.show_type }})</small></h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Genre: {{ show.genre }} | Rating: {{ show.average_rating }}⭐</h6>
+                            <p class="card-text">{{ show.description|truncatewords:20 }}</p>
+                            <a href="{% url 'view_reviews' show.id %}" class="text-decoration-none">View Reviews</a><br>
+                            <a href="{% url 'add_review' show.id %}" class="btn btn-sm btn-outline-primary mt-2">Write a Review</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No shows available.</p>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <div class="text-center mt-5">
+            <h2 class="display-5">Welcome to our website!</h2>
+            <p class="lead">Please <a href="{% url 'login' %}">log in</a> or <a href="{% url 'signup' %}">sign up</a> to explore our recommendations and post reviews.</p>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Card Hover Effect -->
+<style>
+    .show-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .show-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+</style>
+{% endblock %}

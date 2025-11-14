@@ -1,0 +1,33 @@
+{% extends 'recommendations/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Search Results for "<strong>{{ query }}</strong>"</h1>
+
+    {% if shows %}
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for show in shows %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ show.title }} 
+                                <small class="text-muted">({{ show.show_type }})</small>
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                Genre: {{ show.genre }} | Rating: {{ show.average_rating }}⭐
+                            </h6>
+                            <p class="card-text">{{ show.description|truncatewords:20 }}</p>
+                            <a href="{% url 'view_reviews' show.id %}" class="btn btn-sm btn-outline-primary mt-2">View Reviews</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No results found for your search.</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-4">← Back to Home</a>
+</div>
+{% endblock %}
